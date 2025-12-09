@@ -6,13 +6,13 @@ This repo for learing Alpine.js only.
 
 ## Mini Projects
 
-- Todo App
+- [Todo App](https://github.com/catc0de1/alpine-projects-learning/tree/main/todo)
 - Pagination
 - Calculator
 
 ---
 
-Live web: [learing-alpine]()
+Live web: [learning-alpine](https://catc0de1.github.io/alpine-projects-learning)
 
 ---
 
