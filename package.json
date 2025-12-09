@@ -1,0 +1,9 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "Contain learning about Alpine.js with mini projects",
+  "keywords": [],
+  "author": "catc0de1",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0"
+}

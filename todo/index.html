@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List - alpinejs</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.2/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Todo List</h1>
+  </header>
+
+  <section x-data="todo">
+    <input type="text" x-model="newTodo" @keydown.enter="addTodo()"/>
+
+    <ul>
+      <template x-for="todo in todos">
+        <li :class="todo.complete ? 'complete' : ''">
+          <input type="checkbox" x-model="todo.complete">
+          <label x-text="todo.title"></label>
+          <button @click="removeTodo(todo)">x</button>
+        </li>
+      </template>
+    </ul>
+  </section>
+
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data('todo', () => ({
+        todos: [
+          {
+            id: 1,
+            title: "Learning Alpine.js",
+            complete: false,
+          },
+        ],
+        newTodo: '',
+        addTodo() {
+          if (this.newTodo) {
+            this.todos.push({
+              id: this.todos.length + 1,
+              title: this.newTodo,
+              complete: false,
+            });
+
+            this.newTodo = '';
+          }
+        },
+        removeTodo(todo) {
+          this.todos = this.todos.filter((t) => t !== todo);
+        }
+      }));
+    })
+  </script>
+</body>
+</html>
