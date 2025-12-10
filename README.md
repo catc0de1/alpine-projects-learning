@@ -7,8 +7,8 @@ This repo for learing Alpine.js only.
 ## Mini Projects
 
 - [Todo App](https://github.com/catc0de1/alpine-projects-learning/tree/main/todo)
-- Pagination
-- Calculator
+- [Pagination](https://github.com/catc0de1/alpine-projects-learning/tree/main/pagination)
+- [Calculator](https://github.com/catc0de1/alpine-projects-learning/tree/main/calculator)
 
 ---
 
