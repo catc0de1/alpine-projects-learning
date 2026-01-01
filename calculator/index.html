@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.2/dist/cdn.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Calculator - alpinejs</title>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <section
+    x-data="calculator()"
+    x-init="initialize()"
+    class="bg-white p-6 rounded shadow-md w-80"
+  >
+    <div class="text-right mb-4">
+      <input
+        type="text"
+        class="w-full text-2xl text-right border border-gray-300 p-2 rounded"
+        x-model="current"
+        readonly
+      >
+    </div>
+    <div class="grid grid-cols-4 gap-2">
+      <button @click="clear()" class="bg-red-500 text-white p-4 rounded">C</button>
+      <button @click="backSpace()" class="bg-gray-300 p-4 rounded">&larr;</button>
+      <button @click="append('%')" class="bg-gray-300 p-4 rounded">%</button>
+      <button @click="append('/')" class="bg-blue-500 text-white p-4 rounded">/</button>
+
+      <button @click="append('7')" class="bg-gray-300 p-4 rounded">7</button>
+      <button @click="append('8')" class="bg-gray-300 p-4 rounded">8</button>
+      <button @click="append('9')" class="bg-gray-300 p-4 rounded">9</button>
+      <button @click="append('*')" class="bg-blue-500 text-white p-4 rounded">*</button>
+
+      <button @click="append('4')" class="bg-gray-300 p-4 rounded">4</button>
+      <button @click="append('5')" class="bg-gray-300 p-4 rounded">5</button>
+      <button @click="append('6')" class="bg-gray-300 p-4 rounded">6</button>
+      <button @click="append('-')" class="bg-blue-500 text-white p-4 rounded">-</button>
+
+      <button @click="append('1')" class="bg-gray-300 p-4 rounded">1</button>
+      <button @click="append('2')" class="bg-gray-300 p-4 rounded">2</button>
+      <button @click="append('3')" class="bg-gray-300 p-4 rounded">3</button>
+      <button @click="append('+')" class="bg-blue-500 text-white p-4 rounded">+</button>
+
+      <button @click="append('.')" class="bg-gray-300 p-4 rounded">.</button>
+      <button @click="append('0')" class="bg-gray-300 p-4 rounded">0</button>
+      <button @click="compute()" class="col-span-2 bg-green-500 text-white p-4 rounded">=</button>
+    </div>
+  </section>
+
+  <script>
+    function calculator() {
+      return {
+        current: '',
+        append(char) {
+          const operators = '+-*/%'
+          const lastChar = this.current.slice(-1)
+
+          if (operators.includes(char) && operators.includes(lastChar)) {
+            return
+          }
+
+          this.current += char
+        },
+        clear() {
+          this.current = ''
+        },
+        backSpace() {
+          if (this.current.length > 0) {
+            this.current = this.current.slice(0, -1)
+          }
+        },
+        compute() {
+          try {
+            if (this.current.includes('%')) {
+              this.current = this.computePercentage(this.current)
+            } else {
+              this.current = eval(this.current)
+            }
+          } catch (e) {
+            this.current = 'Error';
+          }
+        },
+        computePercentage(expression) {
+          const regex = /(\d+\.?\d*)([+\-*/])(\d+\.?\d*)%/
+          const match = expression.match(regex)
+
+          if (match) {
+            const [_, num1, operator, num2] = match;
+            const percentage = (parseFloat(num2) / 100) * parseFloat(num1)
+            switch (operator) {
+              case '+':
+                return parseFloat(num1) + percentage;
+              case '-':
+                return parseFloat(num1) - percentage;
+              case '*':
+                return parseFloat(num1) * percentage;
+              case '/':
+                return parseFloat(num1) / percentage;
+            }
+          }
+          return expression
+        },
+        initialize() {
+          document.addEventListener('keydown', (event) => {
+            if (event.key >= '0' && event.key <= '9') {
+              this.append(event.key)
+            } else if (['+', '-', '*', '/', '%'].includes(event.key)) {
+              this.append(event.key)
+            } else if (event.key === 'Enter') {
+              this.compute()
+            } else if (event.key === 'Backspace') {
+              this.backSpace()
+            } else if (event.key === 'Delete') {
+              this.clear()
+            } else if (event.key === '.') {
+              this.append('.')
+            }
+          })
+        }
+      }
+    }
+  </script>
+</body>
+</html>
